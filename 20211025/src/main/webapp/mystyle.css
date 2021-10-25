@@ -1,0 +1,54 @@
+<style>
+        #mainSearch>button {
+            padding: 5px 40px;
+            margin: 5px 40%;
+            background-color: blue;
+            color: white;
+            font-size: 15px;
+        }
+
+        table{
+            border: solid blue;
+        }
+
+        td {
+            border: solid gray 1px;
+            padding-left: 10px;
+        }
+
+        tr>td:nth-child(1) {
+            background-color: lightyellow;
+        }
+
+        tr>td:nth-child(3) {
+            background-color: lightyellow;
+        }
+
+        tr>td>button:nth-of-type(1) {
+            background-color: lightskyblue;
+        }
+
+        tr>td>button:nth-last-of-type(1) {
+            background-color: lightgreen;
+        }
+
+        tr:nth-child(2n) {
+            color: red;
+        }
+/* 
+        tr:nth-child(3)>td:nth-child(4) {
+            color: blue;
+        } */
+
+        /* #attachment {
+            color: blue;
+        }
+
+        .attachment {
+            color: blue;
+        } */
+
+        td.attachment {
+            color: blue;
+        }
+    </style>

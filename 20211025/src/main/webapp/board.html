@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>board.html</title>
+    <link rel="stylesheet" href="mystyle.css">
+    <!-- <style>
+        #mainSearch>button {
+            padding: 5px 40px;
+            margin: 5px 40%;
+            background-color: blue;
+            color: white;
+            font-size: 15px;
+        }
+
+        table{
+            border: solid blue;
+        }
+
+        td {
+            border: solid gray 1px;
+            padding-left: 10px;
+        }
+
+        tr>td:nth-child(1) {
+            background-color: lightyellow;
+        }
+
+        tr>td:nth-child(3) {
+            background-color: lightyellow;
+        }
+
+        tr>td>button:nth-of-type(1) {
+            background-color: lightskyblue;
+        }
+
+        tr>td>button:nth-last-of-type(1) {
+            background-color: lightgreen;
+        }
+
+        tr:nth-child(2n) {
+            color: red;
+        }
+/* 
+        tr:nth-child(3)>td:nth-child(4) {
+            color: blue;
+        } */
+
+        /* #attachment {
+            color: blue;
+        }
+
+        .attachment {
+            color: blue;
+        } */
+
+        td.attachment {
+            color: blue;
+        }
+    </style> -->
+</head>
+<body>
+    <section>
+        <article>
+            <table>
+                <thead>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>게시글 등록일</td>
+                        <td colspan="3">
+                            <input type="date">
+                            <select name="" id="">
+                                <option value="1" selected>00시</option>
+                                <option value="2">06시</option>
+                                <option value="3">12시</option>
+                                <option value="4">18시</option>
+                            </select>
+                            -
+                            <input type="date">
+                            <select name="" id="">
+                                <option value="1" selected>00시</option>
+                                <option value="2">06시</option>
+                                <option value="3">12시</option>
+                                <option value="4">18시</option>
+                            </select>
+                            <button>오늘</button>
+                            <button>어제</button>
+                            <button>3일</button>
+                            <button>7일</button>
+                            <button>한달</button>
+                            <button>초기화</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>게시판 선택</td>
+                        <td colspan="3">
+                            <select name="상품후기게시판" id="">
+                                <option value="1" selected>상품후기게시판</option>
+                            </select>
+                            <select name="전체" id="">
+                                <option value="1" selecteed>전체</option>
+                            </select>
+                            <select name="스팸글" id="">
+                                <option value="1" selected>스팸글 포함(전체)</option>
+                            </select>
+                            <input type="radio" checked> 전체
+                            <input type="radio"> 진열
+                            <input type="radio"> 미진열
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>답변/댓글 여부</td>
+                        <td>
+                            <select name="" id="">
+                                <option value="전체" selected>전체</option>
+                            </select>
+                        </td>
+                        <td>첨부파일 여부</td>
+                        <td class="attachment">
+                            <input type="radio" checked>전체
+                            <input type="radio">있음
+                            <input type="radio">없음
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>게시글 검색</td>
+                        <td>
+                            <select name="" id="">
+                                <option value="" selected>이름</option>
+                                <option value="" >제목</option>
+                                <option value="" >내용</option>
+                                <option value="" >작성자</option>
+                            </select>
+                            <input type="text">
+                        </td>
+                        <td>
+                            노출조건 선택
+                        </td>
+                        <td>
+                            <select name="" id="">
+                                <option value="" selected>전체 게시글</option>
+                            </select>
+                            <input type="checkbox">답변글 노출
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>상품명 검색</td>
+                        <td colspan="3">
+                            <select name="" id="">
+                                <option value="" selected>상품명</option>
+                                <option value="" >상품코드</option>
+                            </select>
+                            <input type="text">
+                            <button>상품검색</button>
+                            <button>비우기</button>
+                            상품명 게시글 검색은 상품 QnA, 상품리뷰 게시판 선택시 사용가능)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>별점 조건</td>
+                        <td colspan="3">
+                            <input type="radio" checked>전체 리뷰
+                            <select name="" id="">
+                                <option value="" selected>배송</option>
+                            </select>
+                            <input type="radio">★★★★★
+                            <input type="radio">★★★★
+                            <input type="radio">★★★
+                            <input type="radio">★★
+                            <input type="radio">★
+                            (리뷰 게시판에서만 검색 가능합니다.)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>회원 구분</td>
+                        <td class="attachment">
+                            <input type="radio" checked>전체
+                            <input type="radio">회원
+                            <input type="radio">비회원
+                        </td>
+                        <td>유입 경로</td>
+                        <td>
+                            <input type="radio" checked>전체
+                            <input type="radio">웹
+                            <input type="radio">모바일
+                            <input type="radio">네이버 페이
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>목록 추천 조건</td>
+                        <td colspan="3">
+                            <input type="radio" checked>선택안함
+                            <input type="radio">추천목록1
+                            <input type="radio">추천목록2
+                            <input type="radio">추천목록3
+                            (리뷰/QnA 게시판에서만 검색 가능합니다.)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>게시판 URL</td>
+                        <td>/board/board.html?code=psj1201_board2
+                            <button>주소복사</button><br>
+                            <button>미리보기</button>
+                        </td>              
+                        <td>정렬</td>
+                        <td>
+                            <input type="radio" checked>게시글순
+                            <input type="radio">글 등록순
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>적립금</td>
+                        <td colspan="3">
+                            <input type="radio" checked>전체
+                            <input type="radio">지급
+                            <input type="radio">미지급(비회원제외)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="mainSearch">
+                <button>검색</button>
+            </div>
+        </article>
+    </section> 
+</body>
+</html>
