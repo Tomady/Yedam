@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/basic.html</title>
+    <script>
+        //int v1 = 10;
+        var v1 = 10;
+        v1 = 'hello';
+        v1 = true;
+        v1 = null;
+        var V1 = 20; //대소문자 구분.
+        v1 = { //object 타입
+            name: 'hong',
+            age: 20,
+            phone: '010-2345-1212'
+        }
+        console.log(v1);
+
+        console.log('hello');
+        console.log('nice');
+        v1 = [10, 20, 30]; //배열타입
+        console.log(v1);
+
+        var v2; //지역변수.
+        v2 = 20;
+        v3 = v1 + v2; //전역변수.
+
+        var v1 = 'hello';
+        console.log(v1);
+
+        function sum() {
+            var n1 = 20; //지역변수.
+            var n2 = 30;
+            n3 = n1 + n2;
+            console.log(n3);
+        }
+        sum();
+        // console.log(n3);
+
+        var thisYearMyAge = 20;
+
+        v1 = '"hello"';
+        v1 = '"hello"';
+        v1 = "20"; // 조건문을 할때 string타입이랑 int타입을 비교해도 알아서 형변환함.
+        v2 = 20; // 비교연산자 ==은 알아서 형변환하지만, ===은 형변환 안함.
+
+        console.log(v1 === v2);
+        console.log(v1 == v2);
+        // console.log(v1 = v2);
+
+        if (v1 = v2) {
+            console.log("값이 같습니다.");
+        } else {
+            console.log("값이 다릅니다.");
+        }
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css/codevang.html</title>
+
+    <style>
+        header {
+            background-color: black;
+            height: 50px;
+        }
+
+        .codevang {
+            font-size: 19px;
+            color: white;
+            float: left;
+            width: auto;
+            height: auto;
+            margin: 10px;
+        }
+
+        .home {
+            color: white;
+            float: right;
+            width: auto;
+            height: auto;
+            margin: 10px;
+        }
+
+        .logout {
+            color: gray;
+            float: right;
+            width: auto;
+            height: auto;
+            margin: 10px;
+        }
+
+        .memberinfo {
+            color: gray;
+            float: right;
+            width: auto;
+            height: auto;
+            margin: 10px;
+        }
+
+        .menu {
+            display: block;
+            text-align: center;
+            width: 20%;
+            height: auto;
+            margin: 10px;
+        }
+
+        .menu>div {
+            border: 1px solid gray;
+            border-radius: 3px;
+            height: 50px;
+            width: auto;
+            padding-top: 25px;
+        }
+
+        .position {
+            float: right;
+            width: 75%;
+            height: 40vh;
+            margin: 10px;
+            border: 2px solid gray;
+            border-radius: 10px;
+        }
+
+        .contents {
+            position: relative;
+            width: 100%;
+            height: 40vh;
+        }
+
+        .contents>div {
+            position: inherit;
+            border: 1px solid gray;
+            border-radius: 2px;
+            padding: 10px;
+            margin: 20px 10px;
+        }
+
+        #contents {
+            height: 50%;
+        }
+
+        .contents>button {
+            border-radius: 5px;
+            color: white;
+            background-color: darkslategray;
+            padding: 10px;
+            margin: 0px 10px;
+        }
+
+        #board {
+            background-color: aqua;
+        }
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="codevang">Codevang's Page</div>
+        <div class="memberinfo">회원정보</div>
+        <div class="logout">로그아웃</div>
+        <div class="home">홈</div>
+    </header>
+
+    <br>
+    
+    <div class="position">
+        <div class="contents">
+            <div id="">제목을 입력해주세요.</div>
+            <div id="contents">내용을 입력해주세요</div>
+            <button>제출하기</button>
+        </div>
+    </div>
+ 
+    <div class="menu">
+        <h1>Category</h1>
+        <div id="board">게시판</div>
+        <div>일반 게시판</div>
+        <div>코딩 게시판</div>
+    </div>
+
+</body>
+
+</html>
