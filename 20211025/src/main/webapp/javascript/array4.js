@@ -1,0 +1,165 @@
+const data = [{
+        "id": 1,
+        "first_name": "Adrian",
+        "last_name": "Burhouse",
+        "email": "aburhouse0@cargocollective.com",
+        "gender": "Male",
+        "ip_address": "10.144.80.120"
+    },
+    {
+        "id": 2,
+        "first_name": "Archambault",
+        "last_name": "Lightwood",
+        "email": "alightwood1@ezinearticles.com",
+        "gender": "Polygender",
+        "ip_address": "128.93.170.75"
+    },
+    {
+        "id": 3,
+        "first_name": "Sada",
+        "last_name": "Sleightholm",
+        "email": "ssleightholm2@wordpress.org",
+        "gender": "Agender",
+        "ip_address": "250.120.252.247"
+    },
+    {
+        "id": 4,
+        "first_name": "Allx",
+        "last_name": "Mill",
+        "email": "amill3@i2i.jp",
+        "gender": "Non-binary",
+        "ip_address": "18.108.97.169"
+    },
+    {
+        "id": 5,
+        "first_name": "Joline",
+        "last_name": "Maysor",
+        "email": "jmaysor4@xrea.com",
+        "gender": "Bigender",
+        "ip_address": "213.69.250.251"
+    },
+    {
+        "id": 6,
+        "first_name": "Adelle",
+        "last_name": "Dotson",
+        "email": "adotson5@bing.com",
+        "gender": "Genderqueer",
+        "ip_address": "197.50.101.29"
+    },
+    {
+        "id": 7,
+        "first_name": "Keen",
+        "last_name": "Ackroyd",
+        "email": "kackroyd6@businesswire.com",
+        "gender": "Bigender",
+        "ip_address": "246.93.240.248"
+    },
+    {
+        "id": 8,
+        "first_name": "Milena",
+        "last_name": "Gregorace",
+        "email": "mgregorace7@vinaora.com",
+        "gender": "Bigender",
+        "ip_address": "243.169.189.228"
+    },
+    {
+        "id": 9,
+        "first_name": "Tommie",
+        "last_name": "Mounce",
+        "email": "tmounce8@last.fm",
+        "gender": "Non-binary",
+        "ip_address": "3.232.126.183"
+    },
+    {
+        "id": 10,
+        "first_name": "Dennie",
+        "last_name": "Readitt",
+        "email": "dreaditt9@examiner.com",
+        "gender": "Genderqueer",
+        "ip_address": "78.215.206.87"
+    },
+    {
+        "id": 11,
+        "first_name": "Buckie",
+        "last_name": "Leas",
+        "email": "bleasa@diigo.com",
+        "gender": "Female",
+        "ip_address": "118.122.175.112"
+    },
+    {
+        "id": 12,
+        "first_name": "Allyson",
+        "last_name": "Landes",
+        "email": "alandesb@toplist.cz",
+        "gender": "Bigender",
+        "ip_address": "158.94.171.175"
+    },
+    {
+        "id": 13,
+        "first_name": "Sigrid",
+        "last_name": "Bacchus",
+        "email": "sbacchusc@dyndns.org",
+        "gender": "Non-binary",
+        "ip_address": "68.112.180.196"
+    },
+    {
+        "id": 14,
+        "first_name": "Fernande",
+        "last_name": "Gritskov",
+        "email": "fgritskovd@instagram.com",
+        "gender": "Female",
+        "ip_address": "12.173.166.123"
+    },
+    {
+        "id": 15,
+        "first_name": "Con",
+        "last_name": "Hutchison",
+        "email": "chutchisone@blogger.com",
+        "gender": "Genderfluid",
+        "ip_address": "252.13.134.39"
+    }
+]
+
+console.log(data);
+
+//filter: email 필터 후, 여회원 리스트 만들기.(forEach)
+//map id,first_name, last_name, email
+let filterData = data.filter(function (val, ind) {
+    return val.gender == 'Female';
+});
+console.log(filterData);
+
+let newData = filterData.map(function (val, ind, ary) {
+    let newObj = {}
+    newObj.uid = val.id;
+    newObj.ufname = val.first_name;
+    newObj.ulname = val.last_name;
+    newObj.uemail = val.email;
+
+    return newObj;
+});
+console.log(newData);
+
+let str = '<h1>여회원 리스트</h1>';
+str = str + '<table border="1">';
+tableHead(newData);
+str = str + '<tbody>';
+newData.forEach(callBackFnc);
+str = str + '</tbody>';
+str = str + '</table>';
+
+document.write(str);
+
+function tableHead(obj) {
+    str = str + '<thead><tr>';
+
+    for (let field in obj[0]) {
+        str = str + '<th>' + field + '</th>';
+    }
+    str = str + '</tr></thead>';
+
+}
+
+function callBackFnc(val, ind, ary) {
+    str = str + '<tr><td>' + val.uid + '</td><td>' + val.ufname + '</td><td>' + val.ulname + '</td><td>' + val.uemail + '</td></tr>';
+}

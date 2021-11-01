@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/math.html</title>
+    <script>
+        let num = 3.5;
+        let result = Math.round(num);
+        console.log(result);
+        result = Math.trunc(num);
+        console.log(result);
+        result = Math.ceil(3.2);
+        console.log(result);
+        resutl = Math.sign(1); //양의 값이면 1, 음의 값이면 -1
+        console.log(result);
+        result = Math.pow(3, 3);
+        console.log(result);
+        result = Math.sqrt(64);
+        console.log(result);
+        result = Math.abs(-94);
+        console.log(result);
+        result = Math.floor(Math.random() * 6);
+        console.log(result);
+        let randAry = [];
+        for (let i = 0; i < 10; i++) {
+            let result = Math.floor(Math.random() * 8);
+            console.log(result);
+            randAry.push(result);
+        }
+        console.clear();
+        console.log(randAry);
+
+        let notDupAry = [];
+        let size = randAry.length;
+        let flag = false;
+
+        for (let i = 0; i < size; i++) {
+            falg = false;
+            console.log('값: ' + randAry[i]);
+            for (let k = 0; k < notDupAry.length; k++) {
+                if (randAry[i] == notDupAry[k]) {
+                    pop = randAry.splice(i, 1);
+                    console.log('pop: ' + pop);
+                    let ranNum = Math.floor(Math.random() * 8);
+                    console.log('ranNum: ' + ranNum);
+                    randAry.splice(i, 0, ranNum);
+                    console.log(randAry);
+                    i--;
+                    flag = true;
+                    break;
+                }
+            }
+            if(!flag) {
+                notDupAry.push(randAry[i]);
+            }
+            console.log('notdupAry');
+            console.log(notDupAry);
+            console.log('-------------');
+        }
+        console.log(notDupAry);
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
