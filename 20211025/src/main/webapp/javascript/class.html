@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/class.html</title>
+    <!-- <script src="class1.js"></script> -->
+    <style>
+        table {
+            border: 1px solid black;
+            border-collapse: collapse;
+            width: 200px;
+            text-align: center;
+        }
+
+        th, td {
+            border: 1px solid black;
+        }
+
+        td:hover {
+            background-color: darkturquoise;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="add">
+        학번: <input type="text" id="studentNo"><br>
+        이름: <input type="text" id="studentName"><br>
+        점수: <input type="number" id="score"><br>
+        학년: <input type="number" id="year"><br>
+        <button id="btn">추가</button><br>
+    </div>
+    <br>
+    <div id="show"></div>
+
+    <script>
+        class Student {
+            constructor(studentNo, studentName, score, year) {
+                this.studentNo = studentNo;
+                this.studentName = studentName;
+                this.score = score;
+                this.year = year;
+            }
+
+            getInfoByDom() {
+                let tr = document.createElement('tr');
+                let td1 = document.createElement('td');
+                td1.innerHTML = this.studentNo;
+                let td2 = document.createElement('td');
+                td2.innerHTML = this.studentName;
+                let td3 = document.createElement('td');
+                td3.innerHTML = this.score;
+                let td4 = document.createElement('td');
+                td4.innerHTML = this.year;
+                tr.append(td1, td2, td3, td4);
+
+                return tr;
+            }
+        }
+
+        let ary = ['학번', '이름', '점수', '학년'];
+        let table = document.createElement('table');
+        let div = document.getElementById('show');
+        div.appendChild(table);
+        let tr = document.createElement('tr');
+
+        //테이블 헤드 추가.
+        for(let field of ary) {
+            let th = document.createElement('th');
+            th.innerHTML = field;
+            tr.appendChild(th);
+        }
+  
+        table.appendChild(tr);
+
+        document.getElementById('btn').onclick = function() {
+            let studentNo = document.getElementById('studentNo');
+            let studentName = document.getElementById('studentName');
+            let score = document.getElementById('score');
+            let year = document.getElementById('year');
+
+            let student = new Student(studentNo.value, studentName.value, score.value, year.value);
+            let tr = student.getInfoByDom();
+            table.appendChild(tr);
+        }
+
+        
+    </script>
+</body>
+
+</html>

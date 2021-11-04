@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/random.html</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        td {
+            width: 50px;
+            height: 50px;
+            border: 1px black solid;
+            text-align: center;
+            color: white;
+        }
+
+        input {
+            margin: 0;
+            padding: 0;
+            width: 50px;
+            height: 50px;
+            color: white;
+            text-align: center;
+        }
+
+        .selected {
+            color: yellow;
+            background-color: skyblue;
+            transition: all 2s;
+        }
+
+        .selected:focus {
+            color: yellow;
+            background-color: blue;
+        }
+
+        .correct {
+            color: teal;
+            background-color: yellowgreen;
+        }
+
+        .not_correct {
+            color: white;
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="show"></div>
+    <script>
+        let forBy = 2;
+        let pow = Math.pow(forBy, 2);
+        let half_pow = pow / 2;
+
+        // 배열을 임의 생성.
+        let randomAry = [];
+        while (randomAry.length != pow) {
+
+            let randomVal = Math.floor(Math.random() * pow) + 1; // 1 ~ 16까지 임의수
+            if (randomAry.indexOf(randomVal) == -1) {
+                randomAry.push(randomVal);
+            }
+        }
+        console.log(randomAry);
+
+        let table, tbody, tr, td;
+
+        table = document.createElement('table');
+        tbody = document.createElement('tbody');
+        table.appendChild(tbody);
+        document.getElementById("show").appendChild(table);
+
+        randomAry.forEach(function (val, ind) {
+            if (ind % forBy == 0) {
+                tr = document.createElement('tr');
+                tbody.appendChild(tr);
+            }
+            td = document.createElement('td');
+            let inputVal = 0;
+            td.innerHTML = `<input type="text" value="${inputVal}">`;
+            td.onclick = function () {
+                this.className = 'selected';
+                // 2초 지연.
+                setTimeout(function () {
+                    let selVal = document.querySelectorAll('.selected');
+
+                    if (selVal.length != 2) {
+                        for(let i=0; i<selVal.length; i++) {
+                            selVal[i].className = 'not_correct';
+                        }
+                        return;
+                    }
+
+                    if (selVal[0].innerHTML == selVal[1].innerHTML) {
+                        selVal[0].className = 'correct';
+                        selVal[1].className = 'correct';
+                    } else {
+                        selVal[0].className = 'not_correct';
+                        selVal[1].className = 'not_correct';
+                    }
+                }, 2000);
+            }
+            inputVal = val > half_pow ? (val - half_pow) : val;
+            td.innerHTML = inputVal;
+            tr.appendChild(td);
+        });
+    </script>
+</body>
+
+</html>
