@@ -65,7 +65,7 @@ public class GetModifyMemberServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		
 		// 데이터 수정 및 화면변경.
-		String userId = request.getParameter("id");
+		String userId = request.getParameter("id");	//input태그
 		String userName = request.getParameter("nm");
 		String userAddr = request.getParameter("ad");
 		String userPhone = request.getParameter("ph");

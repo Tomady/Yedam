@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- make toma -->
 	<title>javascript/memberJson.html</title>
 	<style>
 		* {
@@ -69,6 +70,30 @@
 			width: 60px;
 			margin: 10px;
 		}
+
+		.pagination {
+			display: inline-block;
+		}
+
+		.pagination a {
+			color: black;
+			float: left;
+			padding: 8px 16px;
+			text-decoration: none;
+			transition: background-color .3s;
+			border: 1px solid #ddd;
+			margin: 0 4px;
+		}
+
+		.pagination a.active {
+			background-color: #4CAF50;
+			color: white;
+			border: 1px solid #4CAF50;
+		}
+
+		.pagination a:hover:not(.active) {
+			background-color: #ddd;
+		}
 	</style>
 </head>
 
@@ -80,13 +105,15 @@
 			<label for="user_birth">생년월일</label><input id="user_birth" type="date" value="1995-01-01">
 			<label for="user_phone">연락처</label><input id="user_phone" type="text" value="010-1234-5678">
 			<label for="user_addr">주소</label><input id="user_addr" type="text" value="대구 중구 100">
-			<label for="gender">남</label><input name="gender" type="radio" value="men" checked>
-			<label for="gender">여</label><input name="gender" type="radio" value="women">
+			<label for="user_men">남</label><input name="gender" type="radio" value="men" checked>
+			<label for="user_women">여</label><input name="gender" type="radio" value="women">
+			<label for="user_all">모두</label><input name="gender" type="radio" value="all">
 		</div>
 		<div class="btn">
 			<button onclick="addMember()">등록</button>
 			<button onclick="modMember()">수정</button>
 			<button onclick="delMember()">삭제</button>
+			<button onclick="findMember()">조회</button>
 		</div>
 	</div>
 	<div id="show"></div>
@@ -104,19 +131,62 @@
 			<div class='content'>1995-03-05</div>
 		</div>
 	</div>
+	<div class="pagination"></div>
 	<script>
 		// 1) 화면 초기화 보여줄 리스트 출력.
 		// Ajax => new XMLHttpRequest();
+		console.log("시작");
 		let xhtp = new XMLHttpRequest();
 		xhtp.onreadystatechange = function () {
 			if (xhtp.readyState == 4 && xhtp.status == 200) {
 				// 회원 리스트 화면에 보여주기.
 				let data = JSON.parse(xhtp.responseText);
-				showMemberList(data)
+				console.log('첫시작콘솔');
+				console.log(data);
+				showMemberList(data);
+				// 첫 번째 데이터를
+				getUserInfo(data[0].userId);
 			}
 		}
-		xhtp.open('get', '../GetMemberJsonServ');
+		xhtp.open('get', '../GetMemberPageServlet?cmd=list&page=1');
 		xhtp.send();
+
+		// 1-1) 페이지 리스트 보여주기.
+		let req = new XMLHttpRequest();
+		req.open('get', '../GetMemberPageServlet?cmd=cnt');
+		req.send();
+		req.onload = showListPerPage;
+
+		// 1-2) 화면에 페이지 보여주는 콜백.
+		function showListPerPage() {
+			let parent = document.querySelector('.pagination');
+			let result = JSON.parse(this.responseText);
+			console.log('showlistperpage parse');
+			console.log(result); // {"totalCnt": 136} 352
+			let pageCnt = result.totalCnt / 10; //13.6
+			console.log(pageCnt);	// 35.2
+			pageCnt = Math.ceil(pageCnt); // 14
+			console.log(pageCnt);
+
+			// 페이지 화면에 그리기.
+			for (let i = 1; i <= pageCnt; i++) {
+				let a = document.createElement('a');
+				a.href = `javascript:void(0)`;
+				a.textContent = i; // <a href="">3</a>
+				a.onclick = function () {
+					let act = document.querySelectorAll('.pagination .active');
+					for (let k = 0; k < act.length; k++) {
+						act[k].className = null;
+					}
+					this.className = 'active';
+					let xhttp = new XMLHttpRequest();
+					xhttp.open('get', '../GetMemberPageServlet?cmd=list&page=' + i);
+					xhttp.send();
+					xhttp.onload = findMemberCallBack;
+				}
+				parent.appendChild(a);
+			}
+		}
 
 		// 타이틀 * MemberVO의 필드값과 동일.
 		const titles = ['userId', 'userName', 'gender', 'birth_date', 'phone', 'address'];
@@ -126,13 +196,50 @@
 			let thead = document.createElement('thead');
 			let tr = document.createElement('tr');
 			thead.appendChild(tr);
+			//체크박스 추가.
+			let td = document.createElement('th');
+			//td.innerHTML = `선택 <input type = 'checkbox'>`;
+			td.textContent = '선택';
+			let checkBox = document.createElement('input');
+			checkBox.setAttribute('type', 'checkbox');
+			checkBox.onclick = function () {
+				//전체 선택 기능 구현. true/ false
+				//데이터영역 체크박스 .. checked = true;
+				// document.querySelector('input[name="gender"]:checked').value;
+				// if (this.checked) {
+				// 	let checkbox = document.querySelectorAll('input[type="checkbox"]');
+				// 	for (let i = 0; i < checkbox.length; i++) {
+				// 		checkbox[i].checked = true;
+				// 	}
+				// } else {
+				// 	let checkbox = document.querySelectorAll('input[type="checkbox"]');
+				// 	for (let i = 0; i < checkbox.length; i++) {
+				// 		checkbox[i].checked = false;
+				// 	}
+				// }
+
+				let checks = document.querySelectorAll('tbody>tr>td>input');
+
+				if (this.checked) {
+					for (let i = 0; i < checks.length; i++) {
+						checks[i].checked = true;
+					}
+				} else {
+					for (let i = 0; i < checks.length; i++) {
+						checks[i].checked = false;
+					}
+				}
+			}
+			td.appendChild(checkBox);
+			tr.appendChild(td);
+
 			for (let title of titles) {
 				let td = document.createElement('th');
 				td.textContent = title;
 				tr.appendChild(td);
 			}
 			// 추가 칼럼. X
-			let td = document.createElement('th');
+			td = document.createElement('th');
 			td.textContent = '삭제';
 			tr.appendChild(td);
 			return thead;
@@ -151,6 +258,31 @@
 		function getRow(row) { // {userId:?, userName:?, address:?}
 			let tr = document.createElement('tr');
 			tr.id = row.userId;
+			let td = document.createElement('td');
+			let checkBox = document.createElement('input');
+			checkBox.setAttribute('type', 'checkbox');
+			checkBox.onclick = function () {
+				// header 선택 => body 선택 하나라도 해제되면 false
+				// if (!this.checked) {
+				// 	let headercheckbox = document.querySelector('thead>tr>th>input');
+				// 	headercheckbox.checked = false;
+				// }
+
+				let checks = document.querySelectorAll('tbody>tr>td>input');
+
+				for (let i = 0; i < checks.length; i++) {
+					if (!checks[i].checked) {
+						let headercheckbox = document.querySelector('thead>tr>th>input[type="checkbox"]');
+						headercheckbox.checked = false;
+						return;
+					}
+				}
+				let headercheckbox = document.querySelector('thead>tr>th>input');
+				headercheckbox.checked = true;
+			}
+			td.appendChild(checkBox);
+			tr.appendChild(td);
+
 			for (let title of titles) {
 				let td = document.createElement('td');
 				if (title == 'userId') {
@@ -170,7 +302,7 @@
 				tr.appendChild(td);
 			}
 			// 추가 칼럼.
-			let td = document.createElement('td');
+			td = document.createElement('td');
 			td.innerHTML = `<button onclick="delMem('${row.userId}')">삭제</button>`;
 			tr.appendChild(td);
 			return tr;
@@ -183,9 +315,9 @@
 			table.appendChild(getHeader());
 			table.appendChild(getContent(data));
 
-			let h3 = document.createElement('h3');
-			h3.appendChild(document.createTextNode('회원리스트'))
-			document.getElementById('show').appendChild(h3);
+			let cap = document.createElement('caption')
+			cap.appendChild(document.createTextNode('회원리스트'));
+			table.appendChild(cap);
 			document.getElementById('show').appendChild(table);
 		}
 
@@ -208,6 +340,7 @@
 			// 원래 요소가 있으면 요소를 지워주세요.
 			let contentElm = document.querySelector('#content');
 			let cnt = contentElm.children.length;
+
 			for (let i = 0; i < cnt; i++) {
 				contentElm.children[0].remove();
 			}
@@ -231,7 +364,7 @@
 				document.getElementById('content').appendChild(rowDiv);
 			}
 		}
-		getUserInfo('user1');
+		// getUserInfo('user1');
 
 		// 8) 사용자등록.
 		function addMember() {
@@ -350,11 +483,86 @@
 			let selectedTr = document.getElementById(result.retVal.userId);
 			console.log(selectedTr);
 			for (let i = 1; i < titles.length; i++) {
-				selectedTr.children[i].textContent = result.retVal[titles[i]];
+				selectedTr.children[i + 1].textContent = result.retVal[titles[i]];
 			}
 		}
 
-		// 14) 수정처리 콜백.
+		// 15) 선택 삭제.
+		function delMember() {
+			let selectedInput = document.querySelectorAll('tbody>tr>td>input:checked');
+			let cnt = selectedInput.length; //
+			// 선택된 요소를 반복적으로 삭제 처리.
+			for (let i = 0; i < cnt; i++) {
+				let searchId = selectedInput[i].parentNode.parentNode.id;
+				selectedDelMem(searchId);
+			}
+		}
+
+		// 16)선택 삭제 아작스
+		function selectedDelMem(id) {
+			console.log(id);
+			// id를 가지고 db처리해주는 서블릿.
+			// 정상처리 후 화면에서도 삭제.
+			let xhtp = new XMLHttpRequest();
+			xhtp.open('get', '../GetModifyMemberServlet?id=' + id);
+			xhtp.send();
+			xhtp.onload = selectedDelMemCallBack;
+		}
+
+		// 17)선택 삭제 콜백.
+		function selectedDelMemCallBack() {
+			console.log(this.responseText);
+			let result = JSON.parse(this.responseText);
+			if (result.retCode == "OK") {
+				console.log(result.userId);
+				window.alert(`id : ${result.userId}를 삭제완료.`);
+				document.getElementById(result.userId).remove();
+			} else if (result.retCode == "NG") {
+				console.log(`에러메세지: ${result.regMsg}`);
+				//window.alert(result.retMsg);
+			} else {
+				console.log('111111');
+			}
+		}
+
+		// 18) 조건 조회
+		function findMember() {
+			
+			let id = document.getElementById('user_id').value;
+			let name = document.getElementById('user_name').value;
+			let addr = document.getElementById('user_addr').value;
+			let phone = document.getElementById('user_phone').value;
+			let gen = document.querySelector('input[name="gender"]:checked').value;
+			let url = `../SearchMemberServlet?id=${id}&nm=${name}&ad=${addr}&ph=${phone}&gn=${gen}`;
+			
+			console.log('findmember');
+			let req = new XMLHttpRequest();
+			req.open('get', url);
+			req.send();
+			req.onload = showListPerPage;
+
+			// ajax 호출
+			let xhtp = new XMLHttpRequest();
+			xhtp.open('get', url);
+			// xhtp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhtp.send();
+			xhtp.onload = findMemberCallBack;
+		}
+
+		// 19) 조회 콜백.
+		function findMemberCallBack() {
+			console.log(this.responseText);
+			let table = document.querySelectorAll('#show>table');
+			for (let i = 0; i < table.length; i++) {
+				table[0].remove();
+			}
+
+			let data = JSON.parse(this.responseText);
+			console.log(data);
+			showMemberList(data);
+			getUserInfo(data[0].userId);
+		}
+
 
 		// post 방식 요청.
 		// xhtp.open('post', '../GetMemberJsonServ');

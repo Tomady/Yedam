@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery/memberList.html</title>
+	<script src="jquery-3.6.0.min.js"></script>
+	<script>
+		// 생성자 함수.
+		function Member(id, name, score) {
+			this.id = id;
+			this.name = name;
+			this.score = score;
+		}
+
+		let members = [
+			new Member('user1', '김소영', 80),
+			new Member('user2', '위정아', 85),
+			new Member('user3', '정혜윤', 90)
+		];
+
+		// 전체페이지를 로드 후 실행.
+		$(document).ready(function () {	
+			// let ul = document.createElement('ul');
+			// member.forEach(function (val, ind) {
+			// 	let li = document.createElement('li');
+			// 	li.textContent = `id: ${val.id}, name: ${val.name}`;
+			// 	ul.appendChild(li);
+			// });
+			// document.getElementById('show').appendChild(ul);
+			let ul = $('<ul id="addt"><li>apple</li></ul>');
+			console.log(ul);
+			// ul = document.createElement('ul');
+			// console.log(ul);
+
+			$(members).each(function (val, ind) {
+				console.log(val, ind);
+				// let li = $('<li>').text(`id: ${val.id}, name: ${val.name}`);
+				// $(ul).append(li);
+				// jquery는 jquery끼리 javascript는 javascript끼리 작성해야한다.
+				$(ul).append($('<li>').text(`id: ${val.id}, name: ${val.name}`));
+			});
+			$('#show').append(ul);
+		});
+	</script>
+</head>
+
+<body>
+	<div id="show"></div>
+	<!-- <ul><li>아이디, 이름, 점수</li><li>...</li><li>...</li></ul> -->
+</body>
+
+</html>

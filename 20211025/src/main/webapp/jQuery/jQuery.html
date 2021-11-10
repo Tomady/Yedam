@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery/jQuery.html</title>
+<script src="jquery-3.6.0.min.js"></script>
+<script>
+
+	document.addEventListener("DOMContentLoaded", function() {
+
+	});
+
+	btn.addEventListener('click', function() {
+
+	});
+
+	btn.onclick = function() {
+
+	}
+
+	$(document).ready(loadFnc);
+
+	function loadFnc() {
+
+		let table = $('<table></table>');
+		$(table).attr('id', 'tbl'); //id="tbl"
+		$(table).append($('<tbody></tbody>')); // appendChild(tbody)
+
+		$('table') //table을 찾아온다. getElementByTag();
+		$(table).append($('<caption>TABLE</caption>'));
+		$('div>div').append(table);
+		console.log(table);
+
+		$('#tbl>caption').html(); // innerHTML
+		$('#tbl>caption').text(); // innerText
+
+	}
+</script>
+</head>
+<body>
+<div id="container">
+	<div id="show"></div>
+</div>
+</body>
+</html>

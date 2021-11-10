@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../jQuery/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+
+            // ajax : XMLHttpRequest();
+            $.ajax({
+                url: '../javascript/MOCK_DATA.json', // 요청 페이지(txt, html, xml, json)
+                type: 'get', // 전송 방식get, post defualt=get
+                data: {
+                    id: 3,
+                    name: 'hong'
+                }, //'id=3&name=hong', // parameter => request.getParameter();
+                dataType: 'json', // 요청한 데이터 형식(html, xml, json, text, jsonp) JSON.parse(this.responseText)
+                success: successCallBack, // 전송에 성공하면 보낼 데이터
+                error: errorCallBack // 전송에 실패하면 실행될 코드
+            });
+
+            // success 콜백함수
+            function successCallBack(data) {
+                // 페이지를 지정.
+                console.log(data);
+
+                let obj = data[0];  // {id:?, first_name:?, last_name:?..}
+                let fields = [];    // ['id','first_name','last_name','email'..]
+
+                for (let field in obj) {
+                    fields.push(field);
+                }
+                console.log(fields);
+
+                // table, tbody
+                let table = $('<table />').attr({
+                    'id':'tbl', 
+                    'border':'1'
+                }).css({
+                    'border-collapse':'collapse'
+                });
+                let tbody = $('<tbody />');
+                $(table).append(tbody);
+
+                // tr요소.
+                $(data).each((ind, val) => { // arrow func
+                    let tr = $('<tr />');
+
+                    for (let field of fields) {
+                        // $(tr).append($('<td />').text(val[field]));
+                        $('<td />').text(val[field]).appendTo(tr);
+                    }
+                    $(tr).append($('<button />').text('삭제'));
+                    $(tbody).append(tr);
+                });
+                // show
+                $('#show').append(table);
+                // $('#tbl>tbody>tr>button').on('click', clickFnc);
+                $('#tbl>tbody').on('click', 'button', clickFnc);
+
+                $('#tbl>tbody>tr').filter(':nth-child(2n').css('background-color', 'yellow');
+
+                // createTable(data);
+                // createUl(data);
+            }
+
+            // button.click() event
+            function clickFnc() {
+                event.stopPropagation();
+                console.log($(this));
+                let trClone = $(this).parent().clone();
+                $(this).parent().after(trClone);
+                // $(this).parent().remove();
+            }
+
+            // error 콜백함수
+            function errorCallBack(reject) {
+                console.log(`errorCode: ${reject.status}, errorMsg: ${reject.statusText}`);
+            }
+
+            // 테이블 생성 메소드
+            function createTable(data) {
+                let $table = $('<table />');
+                $table.attr('border', '1');
+                $table.css('border-collapse', 'collapse');
+                let $thead = $('<thead />');
+                let $tbody = $('<tbody />');
+
+                $table.append($thead, $tbody);
+                $('#show').append($table);
+
+                let $tr = $('<tr />');
+                for (let field in data[0]) {
+                    let $th = $('<th />').text(field);
+                    $tr.append($th);
+                }
+                $thead.append($tr);
+
+                $(data).each(function (ind, val) {
+                    let $tr = $('<tr />');
+
+                    for (let field in val) {
+                        let $td = $('<td />').text(val[field]);
+                        $tr.append($td);
+                    }
+                    $tbody.append($tr);
+                });
+            } // end of createTable(data); Method
+
+            function createUl(data) {
+                let $ul = $('<ul />');
+
+                $(data).each(function (ind, val) {
+                    let $li = $('<li />').text(val);
+                    $ul.append($li);
+                });
+
+                $('#show').append($ul);
+            } // end of createUl(data); Method
+        }); // end of ready();
+    </script>
+</head>
+
+<body>
+    <div id="show"></div>
+</body>
+
+</html>
