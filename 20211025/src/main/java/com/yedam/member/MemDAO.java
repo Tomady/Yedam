@@ -7,6 +7,89 @@ import java.util.List;
 import java.util.Map;
 
 public class MemDAO extends DAO {
+	// datatable 리스트.
+	public List<DataTable> getDataTables() {
+		connect();
+		String sql = "select * from data_table";
+		List<DataTable> list = new ArrayList<DataTable>();
+		
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				DataTable dt = new DataTable();
+				dt.setExtn(rs.getString("extn"));
+				dt.setName(rs.getString("name"));
+				dt.setOffice(rs.getString("office"));
+				dt.setPosition(rs.getString("position"));
+				dt.setSalary(rs.getString("salary"));
+				dt.setStartDate(rs.getString("start_date"));
+				list.add(dt);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		
+		return list;
+	}
+	
+	// datatable 업로드.
+	public void insertDataTable(DataTable dt) {
+		connect();
+		String sql = "insert into data_table values(?,?,?,?,?,?)";
+		
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, dt.getName());
+			psmt.setString(2, dt.getPosition());
+			psmt.setString(3, dt.getOffice());
+			psmt.setString(4, dt.getExtn());
+			psmt.setString(5, dt.getStartDate());
+			psmt.setString(6, dt.getSalary());
+			
+			int r = psmt.executeUpdate();
+			
+			System.out.println(r + " insert.");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+	}
+	
+	// 상품 조회(상품아이디)
+	public ItemVO searchItem(String id) {
+		connect();
+		String sql = "select * from item where prod_id=?";
+		ItemVO vo = null;
+		
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				vo = new ItemVO();
+				vo.setLike_it(rs.getDouble("like_it"));
+				vo.setOrigin_price(rs.getInt("origin_price"));
+				vo.setProd_desc(rs.getString("prod_desc"));
+				vo.setProd_id(rs.getInt("prod_id"));
+				vo.setProd_image(rs.getString("prod_image"));
+				vo.setProd_item(rs.getString("prod_item"));
+				vo.setSale_price(rs.getInt("sale_price"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return vo;
+	}
 	// 상품 업로드
 	public ItemVO uploadProduct(ItemVO vo) {
 		connect();

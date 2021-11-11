@@ -5,28 +5,76 @@
     <meta charset="UTF-8">
     <title>shop-homepage/item.html</title>
     <script src="../jQuery/jquery-3.6.0.min.js"></script>
+    <style>
+        #top {
+            border: 1px solid black;
+            float: left;
+            width: 100%;
+        }
+
+        .image {
+            border: 1px solid blue;
+            width: 100px;
+            float: left;
+        }
+        
+        .content {
+        	border: 1px solid red;
+        	
+        	float: left;
+        }
+
+    </style>
 </head>
 
 <body>
     <div id="container">
-        상품아이디<div id="prodId">a</div>
-        상품명<div id="prodName">s</div>
+        <div id="top">
+            <div class="image"></div>
+            <div class="content">
+                <ul>
+                    <li id="prod_id"></li>
+                    <li id="prod_name"></li>
+                    <li id="like_it"></li>
+                    <li id="origin_price"></li>
+                    <li id="sale_price"></li>
+                </ul>
+            </div>
+        </div>
+        <div id="center">
+        </div>
     </div>
-    <h3>item.page</h3>
 
     <script>
         let loc = location.href;
+        console.log(loc);
         let pos = loc.indexOf('=');
+        console.log(pos);
         let id = loc.substring(pos + 1);
+        console.log(id);
 
         $.ajax({
-            url: 'data.json',
-            data: 'prodId=' + id,
+            url: '../GetItemOneServlet',
+            data: {
+                prod_id: id,
+            },
             dataType: 'json',
             success: function (data) {
+                console.log('성공');
                 console.log(data);
-                $('#prodId').text(data.prodId);
-                $('#prodName').text(data.prodName);
+                let img = $('<img />').attr({
+                    'src': '../images/' + data.prod_image,
+                    'width': '100px'
+                });
+                $('.image').append(img);
+
+                $('#prod_id').text("상품아이디: " + data.prod_id);
+                $('#prod_name').text("상품명: " + data.prod_item);
+                $('#like_it').text("상품평: " + data.like_it);
+                $('#origin_price').text("정가: " + data.origin_price);
+                $('#sale_price').text("할인가: " + data.sale_price);
+
+                $('#center').append(data.prod_desc);
             },
             error: function (reject) {
                 console.log('실패');

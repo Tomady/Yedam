@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>jQuery/fileUpload.html</title>
     <script src="../jQuery/jquery-3.6.0.min.js"></script>
+    <script src="../ckeditor/ckeditor.js"></script>
     <style>
         tr,
         th {
@@ -18,8 +19,8 @@
 <body>
     <fieldset>
         <legend>파일업로드</legend>
-        <form id="frm" action="../FileUploadServlet" method="post" enctype="Multipart/form-data"
-            onsubmit="formSubmit()">
+        <form id="frm" action="../FileUploadServlet" method="post" enctype="Multipart/form-data">
+            <!-- onsubmit="formSubmit()" -->
             <table>
                 <tr>
                     <td>상품명</td>
@@ -55,6 +56,11 @@
     <div id="show"></div>
 
     <script>
+        // ckeditor 호출.
+        CKEDITOR.replace("prod_desc", {
+        	filebrowserUploadUrl: '../CkeditorServlet'    // fileUpload 해주는 servlet 호출
+        });
+
         // ajax 호출.
         $.ajax({
             url: '../GetItemServlet',
@@ -84,13 +90,22 @@
 
                 data.forEach(function (val, ind) {
                     let tr = $('<tr />');
+                    // prodImage에 이미지 없어서 엑박이면 안보여주기.
+                    let img = $('<img />').attr({
+                        'src': '../images/' + val.prod_image,
+                        'width': '50px'
+                    });
+                    let a = $('<a />').attr({
+                        'href': '../shop-homepage/item.html?id=' + val.prod_id
+                    });
+
                     $(tr).append(
                         $('<td />').text(val.prod_id),
                         $('<td />').text(val.prod_item),
                         $('<td />').text(val.like_it),
                         $('<td />').text(val.origin_price),
                         $('<td />').text(val.sale_price),
-                        $('<td />').html($('<a href="../shop-homepage/item.html?id="' + val.prod_id + '><img width="50px" src="../images/' + val
+                        $('<td />').html($('<a href="../shop-homepage/item.html?id=' + val.prod_id + '"><img width="50px" src="../images/' + val
                             .prod_image + '">'))
                     );
                     $(tbody).append(tr);
@@ -108,11 +123,13 @@
         });
 
         function formSubmit() {
+            console.log("formSubmit 실행");
             event.preventDefault();
 
             let formData = new FormData(); // key:value
             formData.append('prod_item', $('input[name="prod_item"]').val()); // prod_item=맥심모카골드
-            formData.append('prod_desc', $('textarea[name="prod_desc"]').val());
+            // formData.append('prod_desc', $('textarea[name="prod_desc"]').val());
+            formData.append('prod_desc', $('p'));
             formData.append('like_it', $('input[name="like_it"]').val());
             formData.append('origin_price', $('input[name="origin_price"]').val());
             formData.append('sale_price', $('input[name="sale_price"]').val());
